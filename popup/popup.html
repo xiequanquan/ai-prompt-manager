@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-top">
+        <h1 class="title">📋 Prompt 管家</h1>
+        <span class="badge" id="count">0</span>
+      </div>
+      <div class="search-box">
+        <input
+          type="text"
+          id="search"
+          class="search-input"
+          placeholder="🔍 搜索提示词..."
+          autocomplete="off"
+        />
+        <button id="clearSearch" class="clear-btn" hidden>✕</button>
+      </div>
+      <!-- Category tabs -->
+      <div class="categories" id="categories">
+        <button class="cat-tab active" data-cat="all">全部</button>
+      </div>
+    </header>
+
+    <!-- Prompt list -->
+    <div class="prompt-list" id="promptList">
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <p>还没有提示词</p>
+        <p class="empty-hint">点击下方「+ 添加」开始创建</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <button id="addBtn" class="btn btn-primary" title="添加提示词">+ 添加</button>
+      <button id="exportBtn" class="btn btn-secondary" title="导出 JSON">📤 导出</button>
+      <button id="importBtn" class="btn btn-secondary" title="导入 JSON">📥 导入</button>
+    </footer>
+  </div>
+
+  <!-- Add/Edit Modal -->
+  <div class="modal-overlay" id="modal" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">添加提示词</h2>
+        <button class="modal-close" id="closeModalBtn">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="field-label">标题</label>
+        <input type="text" id="promptTitle" class="field-input" placeholder="例如：代码审查" autocomplete="off" />
+
+        <label class="field-label">提示词内容</label>
+        <textarea id="promptContent" class="field-textarea" placeholder="输入提示词内容... 用 `[选中文字]` 表示插入选中文本的位置" rows="4"></textarea>
+
+        <label class="field-label">分类</label>
+        <div class="category-select" id="categorySelect">
+          <button class="cat-option active" data-cat="通用">通用</button>
+          <button class="cat-option" data-cat="编程">编程</button>
+          <button class="cat-option" data-cat="写作">写作</button>
+          <button class="cat-option" data-cat="自定义">自定义</button>
+        </div>
+
+        <div class="field-hint">
+          💡 内容中的 <code>[选中文字]</code> 会被替换为你选中的文本（在 AI 聊天页面使用时）
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="deleteBtn" class="btn btn-danger" hidden>删除</button>
+        <div class="modal-footer-right">
+          <button id="cancelBtn" class="btn btn-secondary">取消</button>
+          <button id="saveBtn" class="btn btn-primary">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Modal -->
+  <div class="modal-overlay" id="importModal" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2>导入提示词</h2>
+        <button class="modal-close" id="closeImportBtn">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="field-label">粘贴 JSON 数据</label>
+        <textarea id="importData" class="field-textarea" rows="6" placeholder='[{"title":"代码审查","content":"请审查以下代码","category":"编程"}]'></textarea>
+        <div class="field-hint">支持从导出功能获得的 JSON 格式</div>
+      </div>
+      <div class="modal-footer">
+        <button id="cancelImportBtn" class="btn btn-secondary">取消</button>
+        <button id="confirmImportBtn" class="btn btn-primary">导入</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
